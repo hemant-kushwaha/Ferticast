@@ -1,4 +1,5 @@
 import requests as rq
+import os
 import json as js
 from time import sleep
 
@@ -22,7 +23,7 @@ class BestTimeToFertilize:
             complete_url = "{0}city={1}&state={2}&country={3}&key={4}&days={5}".format(self.__BASE_URL, self.city_name, self.state_name, self.country_name, self.__API_KEY, self.days)
             # print(complete_url)
             # while self.response == None:
-            self.response = rq.get(complete_url)
+            self.response = rq.get(complete_url, timeout=10)
             sleep(5)
             self.response_code = self.response.status_code
             return self.response_code
@@ -42,7 +43,8 @@ class BestTimeToFertilize:
     def json_file_bulider(self):
         try:
             json_obj = self.response.json()
-            with open('weather_data.json', 'w') as file:
+            base_path = os.path.dirname(__file__)
+            with open(os.path.join(base_path, 'weather_data.json'), 'w') as file:
                 js.dump(json_obj, file, indent = 1, sort_keys = True)
             print("weather_data.json file build successfully")
         except Exception as msg:

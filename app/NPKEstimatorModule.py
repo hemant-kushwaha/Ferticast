@@ -1,4 +1,5 @@
 import warnings
+import os
 import numpy as np 
 import pandas as pd 
 from sklearn import metrics
@@ -11,8 +12,10 @@ warnings.filterwarnings('ignore')
 
 
 class NPKEstimator:
-    def __init__(self, data = 'Nutrient_recommendation.csv', ):
-        self.df = pd.read_csv(data, header=None)
+    def __init__(self, data='Nutrient_recommendation.csv'):
+        base_path = os.path.dirname(__file__)
+        file_path = os.path.join(base_path, data)
+        self.df = pd.read_csv(file_path, header=None)
         self.X_train = None
         self.X_test = None
         self.y_train = None
@@ -28,7 +31,10 @@ class NPKEstimator:
         # create mapping of crop(string) to int type
         mapping = dict()
 
-        with open("mapped_crops.csv", "w") as fh:
+        base_path = os.path.dirname(__file__)
+        file_path = os.path.join(base_path, "mapped_crops.csv")
+
+        with open(file_path, "w") as fh:
             fh.write("Crops,Key\n")
             for i, crop in enumerate(np.unique(self.df[['Crop']]), 1):
                 mapping[crop] =  i
