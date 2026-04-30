@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for
-from BestTimeToFertilizeModule import BestTimeToFertilize
-from NPKEstimatorModule import NPKEstimator
+from app.BestTimeToFertilizeModule import BestTimeToFertilize
+from app.NPKEstimatorModule import NPKEstimator
 
 
 app = Flask(__name__)
