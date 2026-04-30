@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
+import os
+BASE_DIR = os.path.dirname(__file__)
 from app.BestTimeToFertilizeModule import BestTimeToFertilize
 from app.NPKEstimatorModule import NPKEstimator
 
@@ -24,7 +26,7 @@ def processing():
         state = form_data['state']
         city = form_data['city']
 
-        with open("InputData.csv", "w") as fh:
+        with open(os.path.join(BASE_DIR, "InputData.csv"), "w") as fh:
             input_data = "%s,%s,%s" % (crop.strip(), state.strip(), city.strip())
             fh.write(input_data)
         
@@ -56,7 +58,7 @@ def processing():
             npk_list_dict.append(npk)
 
             output_data = category +"\n"+ heading +"\n"+ desc +"\n"+ str(npk['Label_N'])  +"\n"+ str(npk['Label_P'])  +"\n"+ str(npk['Label_K'])
-            with open("output.txt", "w") as fh:
+            with open(os.path.join(BASE_DIR, "output.txt"), "w") as fh:
                 fh.write(output_data)
         else:
             print("Error Occured")
